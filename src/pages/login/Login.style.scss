@@ -56,6 +56,11 @@
 				cursor: pointer;
 				color: var(--color-white);
 				font-weight: 800;
+				transition: all 0.2s ease;
+			}
+
+			&--button:active {
+				transform: scale(0.96);
 			}
 
 			&--forgot {

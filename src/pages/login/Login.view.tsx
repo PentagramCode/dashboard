@@ -59,7 +59,7 @@ const Login = (): JSX.Element => {
 
 	return (
 		<div className='container'>
-			<div className='login__form'>
+			<div className='login__form animate__animated animate__backInUp'>
 				<div className='login__form--header'>
 					<div className='title'>
 						Welcome <span>Back</span>

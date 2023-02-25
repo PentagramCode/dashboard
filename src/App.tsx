@@ -9,7 +9,7 @@ import Home from '@pages/home/Home.view';
 import Login from '@pages/login/Login.view';
 
 // Components
-import ProtectedRoute from '@components/ProtectedRoute.view';
+import { ProtectedRoute } from '@components/routes-component/protected-route';
 
 // Styles
 import './App.scss';

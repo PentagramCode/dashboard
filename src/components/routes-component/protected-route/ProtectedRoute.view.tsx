@@ -6,12 +6,10 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { RootState } from '@redux/configureStore';
 import { useSelector } from 'react-redux';
 
-interface IProtectedRoute {
-	children?: JSX.Element;
-	redirectTo?: string;
-}
+// Index
+import { IProtectedRoute } from '.';
 
-const ProtectedRoute: React.FC<IProtectedRoute> = ({
+export const ProtectedRoute: React.FC<IProtectedRoute> = ({
 	children,
 	redirectTo = '/',
 }) => {
@@ -26,5 +24,3 @@ const ProtectedRoute: React.FC<IProtectedRoute> = ({
 
 	return children != null ? children : <Outlet />;
 };
-
-export default ProtectedRoute;

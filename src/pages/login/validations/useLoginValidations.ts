@@ -3,13 +3,10 @@ import * as Yup from 'yup';
 
 // Models
 import { IUser } from '@models/user';
-import { regexValidateEmail } from '@utils/regex';
+import { IYupErrors } from '@models/validation';
 
 // Utils
-
-type IYupErrors = {
-	[key in string]: string;
-};
+import { regexValidateEmail } from '@utils/regex';
 
 export const useLoginValidations = (): {
 	loginSchemma: Yup.ObjectSchema<IUser>;
