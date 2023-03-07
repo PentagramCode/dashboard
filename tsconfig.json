@@ -9,6 +9,7 @@
 			"@pages/*": ["src/pages/*"],
 			"@redux/*": ["src/redux/*"],
 			"@hooks/*": ["src/hooks/*"],
+			"@servcies/*": ["src/services/*"],
 			"@sass/*": ["src/sass/*"]
 		},
 		"target": "ESNext",

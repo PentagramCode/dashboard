@@ -1,22 +1,18 @@
-// Libnraries
+// Libraries
 import { Form, Formik } from 'formik';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 // Components
 import { Input } from '@components/form/input';
 import { Checkbox } from '@components/form/checkbox';
-
-// Redux
-import { RootState } from '@redux/configureStore';
-import { setAuthenticated } from '@redux/authentication/authentication.slice';
 
 // Images
 import Wave from '@assets/img/wave.svg';
 
 // Validations
 import { useLoginValidations } from './validations/useLoginValidations';
+
+// Hooks
+import { useLogin } from './hooks/useLogin';
 
 // Icons
 import Icon from '@components/icon';
@@ -25,43 +21,15 @@ import Icon from '@components/icon';
 import './Login.style.scss';
 
 const Login = (): JSX.Element => {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const { authentication } = useSelector((state: RootState) => state);
-
-	const [visiblePassword, setVisiblePassword] = useState<boolean>(false);
-
-	const handleLogin = (): void => {
-		dispatch(
-			setAuthenticated({
-				isAuthenticated: true,
-				user: {
-					email: 'john.doe@gmail.com',
-					password: 'password',
-				},
-			})
-		);
-
-		navigate('/home');
-	};
-
-	const handleVisiblePassword = (): void => {
-		setVisiblePassword(!visiblePassword);
-	};
-
 	const { loginSchemma, validateCustom } = useLoginValidations();
-
-	useEffect(() => {
-		if (authentication.isAuthenticated) {
-			navigate('/home');
-		}
-	});
+	const { visiblePassword, handleVisiblePassword, initialLoginState, handleLogin, failedRequest } =
+		useLogin();
 
 	return (
 		<div className='container'>
-			<div className='login__form animate__animated animate__backInUp'>
+			<div className='login__form'>
 				<div className='login__form--header'>
-					<div className='title'>
+					<div className='title' data-testid='title'>
 						Welcome <span>Back</span>
 					</div>
 					<div className='description'>Welcome! Please login to continue.</div>
@@ -69,15 +37,18 @@ const Login = (): JSX.Element => {
 
 				<Formik
 					enableReinitialize
-					initialValues={{ email: '', password: '', remember: false }}
-					onSubmit={values => {
-						console.log(values);
-					}}
+					initialValues={initialLoginState}
+					onSubmit={() => {}}
 					validationSchema={loginSchemma}
 					validate={values => validateCustom(values)}
 				>
 					{({ values }): JSX.Element => (
-						<Form>
+						<Form
+							onSubmit={e => {
+								e.preventDefault();
+								handleLogin(values);
+							}}
+						>
 							<div>
 								<Input
 									type='email'
@@ -102,6 +73,7 @@ const Login = (): JSX.Element => {
 									}
 								/>
 							</div>
+							{failedRequest != null && <div className='text__error'>{failedRequest}</div>}
 							<div>
 								<Checkbox name='remember' label='Remember me' />
 							</div>

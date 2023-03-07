@@ -2,36 +2,37 @@
 import * as Yup from 'yup';
 
 // Models
-import { IUser } from '@models/user';
+import { IUserLogin } from '@models/user';
 import { IYupErrors } from '@models/validation';
 
 // Utils
 import { regexValidateEmail } from '@utils/regex';
 
 export const useLoginValidations = (): {
-	loginSchemma: Yup.ObjectSchema<IUser>;
-	validateCustom: (values: IUser) => object;
+	loginSchemma: Yup.ObjectSchema<IUserLogin>;
+	validateCustom: (values: IUserLogin) => object;
 } => {
-	const loginSchemma: Yup.ObjectSchema<IUser> = Yup.object().shape({
+	const loginSchemma: Yup.ObjectSchema<IUserLogin> = Yup.object().shape({
 		email: Yup.string()
-			.email('* Correo electrónico invalido.')
-			.required('* Campo requerido.'),
+			.email('* Email is not valid')
+			.required('* Email is required'),
 		password: Yup.string()
-			.required('* Campo requerido.')
-			.min(8, 'Debe contener al menos 8 caracteres'),
+			.required('* Password is required')
+			.min(8, '* Must contain at least 8 characters'),
+		remember: Yup.boolean().optional(),
 	});
 
-	const validateEmail = ({ email }: IUser): object => {
+	const validateEmail = ({ email }: IUserLogin): object => {
 		const errors: IYupErrors = {};
 
 		if (!regexValidateEmail.test(email)) {
-			errors.email = '* Correo electrónico inválido.';
+			errors.email = '* Email is not valid';
 		}
 
 		return errors;
 	};
 
-	const validateCustom = (values: IUser): object => {
+	const validateCustom = (values: IUserLogin): object => {
 		const emailErrors = validateEmail(values);
 
 		return {
