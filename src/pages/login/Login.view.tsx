@@ -38,17 +38,14 @@ const Login = (): JSX.Element => {
 				<Formik
 					enableReinitialize
 					initialValues={initialLoginState}
-					onSubmit={() => {}}
+					onSubmit={values => {
+						handleLogin(values);
+					}}
 					validationSchema={loginSchemma}
 					validate={values => validateCustom(values)}
 				>
 					{({ values }): JSX.Element => (
-						<Form
-							onSubmit={e => {
-								e.preventDefault();
-								handleLogin(values);
-							}}
-						>
+						<Form>
 							<div>
 								<Input
 									type='email'
